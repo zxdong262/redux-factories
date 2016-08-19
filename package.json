@@ -1,0 +1,35 @@
+{
+  "name": "redux-factories",
+  "version": "0.0.1",
+  "description": "a factory lib to produce redux constants and reducers of certain format",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha test/test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zxdong262/redux-factories.git"
+  },
+  "keywords": [
+    "redux",
+    "reducers",
+    "constant",
+    "factory",
+    "redux-factories"
+  ],
+  "author": "ZHAO Xudong <zxdong@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/zxdong262/redux-factories/issues"
+  },
+  "homepage": "https://github.com/zxdong262/redux-factories#readme",
+  "dependencies": {
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^2.5.3"
+  },
+  "engines": {
+    "node": ">=6.0.0"
+  }
+}
