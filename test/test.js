@@ -4,8 +4,8 @@ const chai = require('chai')
 ,pkg = require('../package.json')
 ,resolve = require('path').resolve
 ,should = chai.should()
-,factories = require('..')
-
+,factories = require('../dist/redux-factories')
+console.log(factories)
 const { constantFactory, reducerFactory } = factories
 
 let init = {

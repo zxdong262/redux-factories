@@ -1,5 +1,5 @@
 
-exports.constantFactory = function(initState) {
+const constantFactory = function(initState) {
 	let obj = {}
 	let keys = Object.keys(initState)
 	keys.forEach(key => {
@@ -16,9 +16,11 @@ exports.constantFactory = function(initState) {
 	return Object.freeze(obj)
 }
 
-exports.reducerFactory = function(initState) {
+export { constantFactory }
 
-	let types = exports.constantFactory(initState)
+export function reducerFactory (initState) {
+
+	let types = constantFactory(initState)
 
 	return function(state = initState, action) {
 
