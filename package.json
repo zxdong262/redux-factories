@@ -1,41 +1,41 @@
 {
-  "name": "redux-factories",
-  "version": "0.1.0",
-  "description": "a factory lib to produce redux constants and reducers of certain format",
-  "main": "dist/redux-factories.js",
-  "scripts": {
-    "test": "mocha test/test.js",
-    "start": "NODE_ENV=production webpack -p --progress"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/zxdong262/redux-factories.git"
-  },
-  "keywords": [
-    "redux",
-    "reducers",
-    "constant",
-    "factory",
-    "redux-factories"
-  ],
-  "author": "ZHAO Xudong <zxdong@gmail.com>",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/zxdong262/redux-factories/issues"
-  },
-  "homepage": "https://github.com/zxdong262/redux-factories#readme",
-  "dependencies": {},
-  "devDependencies": {
-    "babel-core": "^6.14.0",
-    "babel-loader": "^6.2.5",
-    "babel-preset-es2015": "^6.14.0",
-    "babel-preset-stage-2": "^6.13.0",
-    "babel-runtime": "^6.11.6",
-    "chai": "^3.5.0",
-    "mocha": "^2.5.3",
-    "webpack": "^1.13.2"
-  },
-  "engines": {
-    "node": ">=6.0.0"
-  }
+    "name": "redux-factories",
+    "version": "0.2.0",
+    "description": "a factory lib to produce redux constants and reducers of certain format",
+    "main": "dist/redux-factories.js",
+    "scripts": {
+        "test": "mocha test/test.js",
+        "start": "NODE_ENV=production webpack -p --progress"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/zxdong262/redux-factories.git"
+    },
+    "keywords": [
+        "redux",
+        "reducers",
+        "constant",
+        "factory",
+        "redux-factories"
+    ],
+    "author": "ZHAO Xudong <zxdong@gmail.com>",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/zxdong262/redux-factories/issues"
+    },
+    "homepage": "https://github.com/zxdong262/redux-factories#readme",
+    "dependencies": {},
+    "devDependencies": {
+        "babel-core": "^6.14.0",
+        "babel-loader": "^6.2.5",
+        "babel-preset-es2015": "^6.14.0",
+        "babel-preset-stage-2": "^6.13.0",
+        "babel-runtime": "^6.11.6",
+        "chai": "^3.5.0",
+        "mocha": "^2.5.3",
+        "webpack": "^1.13.2"
+    },
+    "engines": {
+        "node": ">=6.0.0"
+    }
 }
