@@ -1,6 +1,6 @@
 const webpack = require('webpack')
-
-var config = {
+const UnminifiedWebpackPlugin = require('unminified-webpack-plugin')
+let config = {
   entry: {
     'redux-factories': './src/index.js'
   },
@@ -40,10 +40,11 @@ if(process.env.NODE_ENV === 'production') {
       compress: {
           warnings: false, // Suppress uglification warnings
       }
-    })
+    }),
+    new UnminifiedWebpackPlugin()
   ]
 
-  delete config.devtool
+  config.devtool = 'source-map'
 
 }
 
