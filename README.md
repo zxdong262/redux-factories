@@ -56,12 +56,18 @@ dispatch({
 dispatch({
     type: types.del_users
     ,data: { id: 'appleid' }
+    
+    //optional compare fucntion
+    compare: (a, b) => a.id === b.id
+
 })
 
-//update will update one item with same id
+//update will update one item with same id by default
 dispatch({
     type: types.update_users
     ,data: { id: 'appleid', name: 'orange' }
+    //optional compare fucntion
+    ,compare: (a, b) => a.id === b.id
 })
 */
 
