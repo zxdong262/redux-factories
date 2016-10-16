@@ -6,7 +6,7 @@ let config = {
   },
   output: {
     path: __dirname + '/dist/',//输出文件目录
-    filename: '[name].js', //输出文件名
+    filename: '[name].min.js', //输出文件名
     libraryTarget: 'umd'
   },
   watch: true,

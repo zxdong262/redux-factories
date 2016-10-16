@@ -1,6 +1,6 @@
 {
   "name": "redux-factories",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "a factory lib to produce redux constants and reducers of certain format",
   "main": "dist/redux-factories.js",
   "scripts": {
@@ -33,6 +33,7 @@
     "babel-runtime": "^6.11.6",
     "chai": "^3.5.0",
     "mocha": "^2.5.3",
+    "unminified-webpack-plugin": "^1.1.1",
     "webpack": "^1.13.2"
   },
   "engines": {

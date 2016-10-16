@@ -1,2 +1,163 @@
-!function(e,r){if("object"==typeof exports&&"object"==typeof module)module.exports=r();else if("function"==typeof define&&define.amd)define([],r);else{var t=r();for(var n in t)("object"==typeof exports?exports:e)[n]=t[n]}}(this,function(){return function(e){function r(n){if(t[n])return t[n].exports;var a=t[n]={exports:{},id:n,loaded:!1};return e[n].call(a.exports,a,a.exports,r),a.loaded=!0,a.exports}var t={};return r.m=e,r.c=t,r.p="",r(0)}([function(e,r){"use strict";function t(e,r,t){return r in e?Object.defineProperty(e,r,{value:t,enumerable:!0,configurable:!0,writable:!0}):e[r]=t,e}function n(e){var r=a(e);return function(){function n(e){return Object.assign({},a,e)}var a=arguments.length<=0||void 0===arguments[0]?e:arguments[0],o=arguments[1],i={};Object.keys(r).forEach(function(e){var r=e.split("_"),o=r[0],c=r[1],u=void 0;"set"===o?u=function(e){var r=t({},c,e.data);return n(r)}:"add"===o?u=function(e){var r=c,o=t({},r,a[r].slice(0).concat(e.data));return n(o)}:"del"===o?u=function(e){for(var r=c,o=a[r].slice(0),i=e.data,u=e.compare,f=0,d=o.length;f<d;f++){var s=o[f],l=u?u(s,i):s.id===i.id;if(l){o.splice(f,1);break}}var p=t({},r,o);return n(p)}:"update"===o&&(u=function(e){for(var r=c,o=a[r].slice(0),i=e.data,u=e.compare,f=0,d=o.length;f<d;f++){var s=o[f],l=u?u(s,i):s.id===i.id;if(l){o.splice(f,1,Object.assign({},s,i));break}}var p=t({},r,o);return n(p)}),i[e]=u});var c=i[o.type];return c?c(o):n({})}}Object.defineProperty(r,"__esModule",{value:!0}),r.reducerFactory=n;var a=function(e){var r={},t=Object.keys(e);return t.forEach(function(t){var n=e[t],a=["set"];Array.isArray(n)&&(a=["set","add","del","update"]),a.forEach(function(e){var n=e+"_"+t;r[n]=n})}),Object.freeze(r)};r.constantFactory=a}])});
-//# sourceMappingURL=redux-factories.js.map
+(function webpackUniversalModuleDefinition(root, factory) {
+	if(typeof exports === 'object' && typeof module === 'object')
+		module.exports = factory();
+	else if(typeof define === 'function' && define.amd)
+		define([], factory);
+	else {
+		var a = factory();
+		for(var i in a) (typeof exports === 'object' ? exports : root)[i] = a[i];
+	}
+})(this, function() {
+return /******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId])
+/******/ 			return installedModules[moduleId].exports;
+/******/
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			exports: {},
+/******/ 			id: moduleId,
+/******/ 			loaded: false
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.loaded = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(0);
+/******/ })
+/************************************************************************/
+/******/ ([
+/* 0 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.constantFactory = constantFactory;
+	exports.reducerFactory = reducerFactory;
+	
+	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+	
+	function constantFactory(initState) {
+	  var obj = {};
+	  var keys = Object.keys(initState);
+	  keys.forEach(function (key) {
+	    var value = initState[key];
+	    var methods = ['set'];
+	    if (Array.isArray(value)) {
+	      methods = ['set', 'add', 'del', 'update'];
+	    }
+	    methods.forEach(function (met) {
+	      var name = met + '_' + key;
+	      obj[name] = name;
+	    });
+	  });
+	  return Object.freeze(obj);
+	}
+	
+	function reducerFactory(initState) {
+	
+	  var types = constantFactory(initState);
+	
+	  return function () {
+	    var state = arguments.length <= 0 || arguments[0] === undefined ? initState : arguments[0];
+	    var action = arguments[1];
+	
+	
+	    var mutations = {};
+	
+	    function mutate(prop) {
+	      return Object.assign({}, state, prop);
+	    }
+	
+	    //build mutation tree
+	    Object.keys(types).forEach(function (typ) {
+	
+	      var arr = typ.split('_');
+	      var method = arr[0];
+	      var target = arr[1];
+	      var act = void 0;
+	      if (method === 'set') {
+	        act = function act(action) {
+	          var obj = _defineProperty({}, target, action.data);
+	          return mutate(obj);
+	        };
+	      } else if (method === 'add') {
+	        act = function act(action) {
+	          var rt = target;
+	          var obj = _defineProperty({}, rt, state[rt].slice(0).concat(action.data));
+	          return mutate(obj);
+	        };
+	      } else if (method === 'del') {
+	        act = function act(action) {
+	          var rt = target;
+	          var arr0 = state[rt].slice(0);
+	          var data = action.data;
+	          var compare = action.compare;
+	          for (var i = 0, len = arr0.length; i < len; i++) {
+	            var item = arr0[i];
+	            var res = compare ? compare(item, data) : item.id === data.id;
+	            if (res) {
+	              arr0.splice(i, 1);
+	              break;
+	            }
+	          }
+	          var obj = _defineProperty({}, rt, arr0);
+	          return mutate(obj);
+	        };
+	      } else if (method === 'update') {
+	        act = function act(action) {
+	          var rt = target;
+	          var arr0 = state[rt].slice(0);
+	          var data = action.data;
+	          var compare = action.compare;
+	          for (var i = 0, len = arr0.length; i < len; i++) {
+	            var item = arr0[i];
+	            var res = compare ? compare(item, data) : item.id === data.id;
+	            if (res) {
+	              arr0.splice(i, 1, Object.assign({}, item, data));
+	              break;
+	            }
+	          }
+	          var obj = _defineProperty({}, rt, arr0);
+	          return mutate(obj);
+	        };
+	      }
+	      mutations[typ] = act;
+	    });
+	
+	    var func = mutations[action.type];
+	    if (func) return func(action);else return mutate({});
+	  };
+	}
+
+/***/ }
+/******/ ])
+});
+;
