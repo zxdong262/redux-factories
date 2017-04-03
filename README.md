@@ -33,7 +33,6 @@ const types = constantFactory(initState)
 
 const reducers = reducerFactory(initState)
 
-/*
 //all through 'data' key
 
 //set will replace the whole value 
@@ -69,8 +68,16 @@ dispatch({
     //optional compare fucntion
     ,compare: (a, b) => a.id === b.id
 })
-*/
 
+//use custom function as updater to update multiple props in one action
+dispatch({
+    type: types.custom
+    ,custom: state => {
+      state.total = 1
+      state.users = []
+      return state
+    }
+})
 ```
 
 ## test

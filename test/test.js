@@ -4,7 +4,7 @@ const chai = require('chai'),
     resolve = require('path').resolve,
     should = chai.should(),
     factories = require('../dist/redux-factories')
-console.log(factories)
+
 const { constantFactory, reducerFactory } = factories
 
 let init = {
@@ -127,4 +127,30 @@ describe(pkg.name, function() {
 
     })
 
+    it('custom function as reducer', function() {
+
+        let reducer = reducerFactory(init)
+
+        let s5 = reducer({
+            users: [{
+                id: 0,
+                name: 'x'
+            }, {
+                id: 2,
+                name: 'xx'
+            }],
+            len: 9
+        }, {
+            type: 'custom',
+            func: state => {
+              state.len = 10
+              state.users = state.users.slice(1)
+              return state
+            }
+        })
+        console.log(s5, 's5')
+        expect(s5.users[0].name).to.equal('xx')
+        expect(s5.len).to.equal(10)
+
+    })
 })

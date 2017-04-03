@@ -1,3 +1,8 @@
+/**
+ * constantFactory
+ * create constant from initState
+ * @param {*} initState
+ */
 export function constantFactory(initState) {
   let obj = {}
   let keys = Object.keys(initState)
@@ -12,9 +17,39 @@ export function constantFactory(initState) {
       obj[name] = name
     })
   })
+  obj.custom = 'custom'
   return Object.freeze(obj)
 }
 
+/**
+ * simplified version of deepCopy
+ * only for plain object, no regexp, no date, no fucntion
+ * from http://stackoverflow.com/questions/122102/what-is-the-most-efficient-way-to-deep-clone-an-object-in-javascript
+ */
+export function deepCopy(src) {
+  if(src === null || typeof(src) !== 'object'){
+    return src
+  }
+  if (Array.isArray(src)) {
+      let ret = src.slice()
+      let i = ret.length
+      while (i--) {
+        ret[i] = deepCopy(ret[i])
+      }
+      return ret
+  }
+  let dest = {}
+  for (var key in src) {
+    dest[key] = deepCopy(src[key])
+  }
+  return dest
+}
+
+/**
+ * reducerFactory
+ * create reducer from initState
+ * @param {object} initState
+ */
 export function reducerFactory(initState) {
 
   let types = constantFactory(initState)
@@ -24,7 +59,7 @@ export function reducerFactory(initState) {
     let mutations = {}
 
     function mutate(prop) {
-      return Object.assign({}, state, prop)
+      return Object.assign(deepCopy(state), prop)
     }
 
     //build mutation tree
@@ -53,8 +88,7 @@ export function reducerFactory(initState) {
         act = action => {
           let rt = target
           let arr0 = state[rt].slice(0)
-          let data = action.data
-          let compare = action.compare
+          let {data, compare} = action
           for (let i = 0, len = arr0.length; i < len; i++) {
             let item = arr0[i]
             let res = compare ? compare(item, data) : item.id === data.id
@@ -72,13 +106,12 @@ export function reducerFactory(initState) {
         act = action => {
           let rt = target
           let arr0 = state[rt].slice(0)
-          let data = action.data
-          let compare = action.compare
+          let {data, compare} = action
           for (let i = 0, len = arr0.length; i < len; i++) {
             let item = arr0[i]
             let res = compare ? compare(item, data) : item.id === data.id
             if (res) {
-              arr0.splice(i, 1, Object.assign({}, item, data))
+              arr0.splice(i, 1, Object.assign(deepCopy(item), data))
               break
             }
           }
@@ -90,7 +123,9 @@ export function reducerFactory(initState) {
       }
       mutations[typ] = act
     })
-
+    if (action.type === 'custom') {
+      return action.func(deepCopy(state))
+    }
     let func = mutations[action.type]
     if (func) return func(action)
     else return mutate({})

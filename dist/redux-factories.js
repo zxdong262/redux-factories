@@ -59,11 +59,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+	
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+	
 	exports.constantFactory = constantFactory;
+	exports.deepCopy = deepCopy;
 	exports.reducerFactory = reducerFactory;
 	
 	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 	
+	/**
+	 * constantFactory
+	 * create constant from initState
+	 * @param {*} initState
+	 */
 	function constantFactory(initState) {
 	  var obj = {};
 	  var keys = Object.keys(initState);
@@ -78,22 +87,52 @@ return /******/ (function(modules) { // webpackBootstrap
 	      obj[name] = name;
 	    });
 	  });
+	  obj.custom = 'custom';
 	  return Object.freeze(obj);
 	}
 	
+	/**
+	 * simplified version of deepCopy
+	 * only for plain object, no regexp, no date, no fucntion
+	 * from http://stackoverflow.com/questions/122102/what-is-the-most-efficient-way-to-deep-clone-an-object-in-javascript
+	 */
+	function deepCopy(src) {
+	  if (src === null || (typeof src === 'undefined' ? 'undefined' : _typeof(src)) !== 'object') {
+	    return src;
+	  }
+	  if (Array.isArray(src)) {
+	    var ret = src.slice();
+	    var i = ret.length;
+	    while (i--) {
+	      ret[i] = deepCopy(ret[i]);
+	    }
+	    return ret;
+	  }
+	  var dest = {};
+	  for (var key in src) {
+	    dest[key] = deepCopy(src[key]);
+	  }
+	  return dest;
+	}
+	
+	/**
+	 * reducerFactory
+	 * create reducer from initState
+	 * @param {object} initState
+	 */
 	function reducerFactory(initState) {
 	
 	  var types = constantFactory(initState);
 	
 	  return function () {
-	    var state = arguments.length <= 0 || arguments[0] === undefined ? initState : arguments[0];
+	    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initState;
 	    var action = arguments[1];
 	
 	
 	    var mutations = {};
 	
 	    function mutate(prop) {
-	      return Object.assign({}, state, prop);
+	      return Object.assign(deepCopy(state), prop);
 	    }
 	
 	    //build mutation tree
@@ -118,8 +157,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        act = function act(action) {
 	          var rt = target;
 	          var arr0 = state[rt].slice(0);
-	          var data = action.data;
-	          var compare = action.compare;
+	          var data = action.data,
+	              compare = action.compare;
+	
 	          for (var i = 0, len = arr0.length; i < len; i++) {
 	            var item = arr0[i];
 	            var res = compare ? compare(item, data) : item.id === data.id;
@@ -135,13 +175,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	        act = function act(action) {
 	          var rt = target;
 	          var arr0 = state[rt].slice(0);
-	          var data = action.data;
-	          var compare = action.compare;
+	          var data = action.data,
+	              compare = action.compare;
+	
 	          for (var i = 0, len = arr0.length; i < len; i++) {
 	            var item = arr0[i];
 	            var res = compare ? compare(item, data) : item.id === data.id;
 	            if (res) {
-	              arr0.splice(i, 1, Object.assign({}, item, data));
+	              arr0.splice(i, 1, Object.assign(deepCopy(item), data));
 	              break;
 	            }
 	          }
@@ -151,7 +192,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	      }
 	      mutations[typ] = act;
 	    });
-	
+	    if (action.type === 'custom') {
+	      return action.func(deepCopy(state));
+	    }
 	    var func = mutations[action.type];
 	    if (func) return func(action);else return mutate({});
 	  };
