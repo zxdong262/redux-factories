@@ -45,19 +45,21 @@ dispatch({
     ,data: [{ name: 'apple' }]
 })
 
-//add will push one item into array
+//add will push/unshift one item into array
 dispatch({
     type: types.add_users
     ,data: { name: 'apple' }
+    ,method: 'push' //optional default is 'unshift'
 })
 
 //del will remove one item with same id or ===
 dispatch({
     type: types.del_users
     ,data: { id: 'appleid' }
-    
+    //optional compare prop, default is 'id'
+    ,prop: 'name'
     //optional compare fucntion
-    compare: (a, b) => a.id === b.id
+    ,compare: (a, b) => a.id === b.id
 
 })
 
@@ -67,6 +69,8 @@ dispatch({
     ,data: { id: 'appleid', name: 'orange' }
     //optional compare fucntion
     ,compare: (a, b) => a.id === b.id
+    //optional compare prop, default is 'id'
+    ,prop: 'name'
 })
 
 //use custom function as updater to update multiple props in one action

@@ -144,25 +144,32 @@ return /******/ (function(modules) { // webpackBootstrap
 	      var act = void 0;
 	      if (method === 'set') {
 	        act = function act(action) {
-	          var obj = _defineProperty({}, target, action.data);
+	          var obj = _defineProperty({}, target, deepCopy(action.data));
 	          return mutate(obj);
 	        };
 	      } else if (method === 'add') {
 	        act = function act(action) {
 	          var rt = target;
-	          var obj = _defineProperty({}, rt, state[rt].slice(0).concat(action.data));
+	          var _action$method = action.method,
+	              method = _action$method === undefined ? 'unshift' : _action$method;
+	
+	          var res = deepCopy(state[rt]);
+	          res[method](deepCopy(action.data));
+	          var obj = _defineProperty({}, rt, res);
 	          return mutate(obj);
 	        };
 	      } else if (method === 'del') {
 	        act = function act(action) {
 	          var rt = target;
-	          var arr0 = state[rt].slice(0);
+	          var arr0 = deepCopy(state[rt]);
 	          var data = action.data,
-	              compare = action.compare;
+	              compare = action.compare,
+	              _action$prop = action.prop,
+	              prop = _action$prop === undefined ? 'id' : _action$prop;
 	
 	          for (var i = 0, len = arr0.length; i < len; i++) {
 	            var item = arr0[i];
-	            var res = compare ? compare(item, data) : item.id === data.id;
+	            var res = compare ? compare(item, data) : item[prop] === data[prop];
 	            if (res) {
 	              arr0.splice(i, 1);
 	              break;
@@ -174,15 +181,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	      } else if (method === 'update') {
 	        act = function act(action) {
 	          var rt = target;
-	          var arr0 = state[rt].slice(0);
+	          var arr0 = deepCopy(state[rt]);
 	          var data = action.data,
-	              compare = action.compare;
+	              compare = action.compare,
+	              _action$prop2 = action.prop,
+	              prop = _action$prop2 === undefined ? 'id' : _action$prop2;
 	
 	          for (var i = 0, len = arr0.length; i < len; i++) {
 	            var item = arr0[i];
-	            var res = compare ? compare(item, data) : item.id === data.id;
+	            var res = compare ? compare(item, data) : item[prop] === data[prop];
 	            if (res) {
-	              arr0.splice(i, 1, Object.assign(deepCopy(item), data));
+	              arr0.splice(i, 1, Object.assign(item, data));
 	              break;
 	            }
 	          }
