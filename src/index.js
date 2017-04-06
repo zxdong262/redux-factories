@@ -79,9 +79,12 @@ export function reducerFactory(initState) {
       } else if (method === 'add') {
         act = action => {
           let rt = target
-          let {method = 'unshift'} = action
+          let {method = 'unshift', index, data} = action
           let res = deepCopy(state[rt])
-          res[method](deepCopy(action.data))
+          if (typeof index !== 'undefined') {
+            res.splice(index, 0, data)
+          }
+          else res[method](deepCopy(data))
           let obj = {
             [rt]: res
           }

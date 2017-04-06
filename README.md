@@ -1,7 +1,9 @@
 # redux-factories
 [![Build Status](https://travis-ci.org/zxdong262/redux-factories.svg?branch=master)](https://travis-ci.org/zxdong262/redux-factories)
 
-a factory lib to produce redux constants and reducers of certain format.
+- a factory lib to produce redux constants and reducers of certain format.
+- so no need to write reducers
+- and can change multiple prop in one reducer by custom function
 
 ## install
 ```bash
@@ -49,10 +51,11 @@ dispatch({
 dispatch({
     type: types.add_users
     ,data: { name: 'apple' }
-    ,method: 'push' //optional default is 'unshift'
+    ,method: 'push' //optional, default is 'unshift'
+    ,index: 0 //optional, default is undefined, when exist, insert to index position, skip method
 })
 
-//del will remove one item with same id or ===
+//del will remove one item with same id or compare by costum function
 dispatch({
     type: types.del_users
     ,data: { id: 'appleid' }
@@ -60,7 +63,6 @@ dispatch({
     ,prop: 'name'
     //optional compare fucntion
     ,compare: (a, b) => a.id === b.id
-
 })
 
 //update will update one item with same id by default
@@ -73,7 +75,7 @@ dispatch({
     ,prop: 'name'
 })
 
-//use custom function as updater to update multiple props in one action
+//use custom function as updater to update multiple props/all kinds of update in one action
 dispatch({
     type: types.custom
     ,custom: state => {

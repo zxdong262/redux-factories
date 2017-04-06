@@ -151,10 +151,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	        act = function act(action) {
 	          var rt = target;
 	          var _action$method = action.method,
-	              method = _action$method === undefined ? 'unshift' : _action$method;
+	              method = _action$method === undefined ? 'unshift' : _action$method,
+	              index = action.index,
+	              data = action.data;
 	
 	          var res = deepCopy(state[rt]);
-	          res[method](deepCopy(action.data));
+	          if (typeof index !== 'undefined') {
+	            res.splice(index, 0, data);
+	          } else res[method](deepCopy(data));
 	          var obj = _defineProperty({}, rt, res);
 	          return mutate(obj);
 	        };

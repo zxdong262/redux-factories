@@ -144,6 +144,34 @@ describe(pkg.name, function () {
 
   })
 
+  it('reducers add array item to index', function () {
+
+    let reducer = reducerFactory(init)
+
+    let s5 = reducer({
+      users: [{
+        id: 0,
+        name: 'x'
+      }, {
+        id: 2,
+        name: 'xx'
+      }, {
+        id: 4,
+        name: 'xx'
+      }]
+    }, {
+      type: 'add_users',
+      data: {
+        id: 22,
+        name: 'y23'
+      },
+      index: 1
+    })
+
+    expect(s5.users[1].name).to.equal('y23')
+
+  })
+
   it('reducers unshift array item', function () {
 
     let reducer = reducerFactory(init)
